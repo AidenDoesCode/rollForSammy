@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll For Sandwich</title>
+    <link href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet" />
+    <style>
+        /* Simple styling for the buildup text */
+        .rolling-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #888;
+            margin-top: 20px;
+        }
+        
+        /* Hidden layout by default, shown when items appear */
+        .ingredient-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .ingredient-item {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .ingredient-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <h1>Roll For Sandwich</h1>
+    
+    <!-- Changed from a form to a simple button element -->
+    <button id="rollButton">Click Me to Roll!</button>
+
+    <div id="diceStatus" class="rolling-text"></div>
+    <ul id="sandwichResult" class="ingredient-list"></ul>
+
+    <script>
+        document.getElementById('rollButton').addEventListener('click', async () => {
+            const statusDiv = document.getElementById('diceStatus');
+            const resultList = document.getElementById('sandwichResult');
+            
+            // Clear out old results
+            statusDiv.textContent = "";
+            resultList.innerHTML = "";
+            
+            // 1. Initiate a slow build up dice roll animation in text
+            let seconds = 0;
+            const animationInterval = setInterval(() => {
+                const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+                const randomFace = diceFaces[Math.floor(Math.random() * diceFaces.length)];
+                statusDiv.textContent = `${randomFace} Rolling the dice...`;
+            }, 100);
+
+            try {
+                // Fetch data from Flask backend while animation plays
+                const response = await fetch("{{ url_for('run_function') }}", { method: 'POST' });
+                const sandwichData = await response.json();
+
+                // Wait 1.5 seconds total for the dramatic buildup effect
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                clearInterval(animationInterval);
+                statusDiv.textContent = "🎲 The dice have settled! Let's build it:";
+
+                // 2. List each component slowly one-by-one
+                let delay = 0;
+                for (const [category, items] of Object.entries(sandwichData)) {
+                    await new Promise(resolve => setTimeout(resolve, 1000)); // 1-second pause between components
+                    
+                    const li = document.createElement('li');
+                    li.className = 'ingredient-item';
+                    
+                    // Clean up array display (e.g., ["White"] -> "White" or empty arrays -> "None")
+                    const itemsString = items.length > 0 ? items.join(', ') : 'None';
+                    li.innerHTML = `<strong>${category}:</strong> ${itemsString}`;
+                    
+                    resultList.appendChild(li);
+                    
+                    // Trigger the fade-in and slide-up animation
+                    setTimeout(() => li.classList.add('visible'), 50);
+                }
+
+            } catch (error) {
+                clearInterval(animationInterval);
+                statusDiv.textContent = "Oops! Something went wrong with the roll.";
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

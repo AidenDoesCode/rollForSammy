@@ -1,63 +1,49 @@
-#05/20/2026
-#Program Name: rollForSammy
-
-
-
+from flask import Flask, render_template, jsonify  # <-- Make sure jsonify is here!
+from pprint import pprint
+from waitress import serve
 import random
+import os
 
-#function to randomly get the choices
+app = Flask(__name__)
+
 def getOption(maxNum, givenList):
     choices = []
     for i in range(maxNum):
-        choices.append(random.choice(givenList)) #get random item from the given list
-    return choices #return random value of listvalue of list
+        choices.append(random.choice(givenList))
+    return choices
 
-def main():
-    #create and intitialize lists for different componenets of the sandwich
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/run-function', methods=['POST'])
+def run_function():
     base = ["White", "Wheat", "Lettuce Wrap"]
-    meat = ["Turkey", "Ham", "SalamiCapicola", "Chicken", "Beef",
-            "ChickenSalad", "Pork", "Sausage", "Pepperorni", "Bacon", "None"]
+    meat = ["Turkey", "Ham", "Salami Capicola", "Chicken", "Beef",
+            "Chicken Salad", "Pork", "Sausage", "Pepperoni", "Bacon", "None"]
     cheese = ["Provolone", "Mozzarella", "Cheddar", "Bleu Cheese", "None"]
     toppings = ["Lettuce", "Tomato", "Onion", "Pickles", "Olives",
                 "Banana Peppers", "Gardinara Peppers", "Cucumbers", "Spinach",
                 "Avocado", "Garlic Butter", "Egg", "Walnuts", "Cranberries",
                 "Italian Seasoning", "Grated Parmesan", "Salt", "Pepper", "None"]
     sauces = ["Mayo", "Mustard", "Honey Mustard", "Ranch", "Chipotle Ranch",
-          "Buffalo Sauce", "BBQ", "Caesar", "V&O", "Italian Vin",
-          "Spicy Mustard", "Balsamic", "Pepper Oil", "Marinara", "Au Jus", "None"]
+              "Buffalo Sauce", "BBQ", "Caesar", "V&O", "Italian Vin",
+              "Spicy Mustard", "Balsamic", "Pepper Oil", "Marinara", "Au Jus", "None"]
     
-    #hard code max number of options for each component of the sandwich
-    maxBase = 1
-    maxMeat = 3
-    maxCheese = 2
-    maxToppings = 6
-    maxSauces = 2
+    numMeat = random.randint(0, 3)
+    numCheese = random.randint(0, 2)
+    numTopping = random.randint(0, 6)
+    numSauce = random.randint(0, 2)
 
-    #generate random number of each component to add to the sandwich
-    numMeat = random.randint(0, maxMeat)
-    numCheese = random.randint(0, maxCheese)
-    numTopping = random.randint(0, maxToppings)
-    numSauce = random.randint(0, maxSauces)
+    # This creates the clean JSON data package the Javascript is waiting for
+    return jsonify({
+        "Bread/Base": getOption(1, base),
+        "Meat": getOption(numMeat, meat),
+        "Cheese": getOption(numCheese, cheese),
+        "Toppings": getOption(numTopping, toppings),
+        "Sauces": getOption(numSauce, sauces)
+    })
 
-    
-
-    #start building the sandwich
-    sandwich = [] #list to hold the sandwich components
-    
-    #add random base to the sandwich
-    baseChoice = getOption(maxBase, base)
-    meatChoice = getOption(numMeat, meat)
-    cheeseChoice = getOption(numCheese, cheese)
-    toppingChoice = getOption(numTopping, toppings)
-    sauceChoice = getOption(numSauce, sauces)
-
-    #add sandwich list items
-    sandwich.append(baseChoice)
-    sandwich.append(meatChoice)
-    sandwich.append(cheeseChoice)
-    sandwich.append(toppingChoice)
-    sandwich.append(sauceChoice)
-
-    print (sandwich)
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+       port = int(os.environ.get("PORT", 8000))
+       serve(app, host="0.0.0.0", port=port)
