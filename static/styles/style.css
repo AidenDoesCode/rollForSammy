@@ -4,9 +4,21 @@
     box-sizing: border-box;
 }
 
+/* CSS Styling */
+.image-container {
+  width: 100%;       /* Or any desired size like 500px, 50% */
+  max-width: 800px;  /* Optional: Prevents the container from becoming too large */
+}
+
+img {
+  width: 100%;       /* Forces the image to fill the width of its container */
+  height: auto;      /* Automatically adjusts the height to keep proportion */
+  display: block;    /* Removes the default extra bottom margin space */
+}
+
 body {
     padding: 2rem;
-    background-color: #333;
+    background-color: #286c39;
     color: whitesmoke;
     min-height: 100vh;
     display: flex;
@@ -25,11 +37,11 @@ input, button {
 
 /* --- Added for the Dice Roll & Staggered Reveal --- */
 
-/* Buildup and rolling status text (adjusted color for dark mode) */
+/* Buildup and rolling status text */
 .rolling-text {
     font-size: 1.8rem;
     font-style: italic;
-    color: #bbb; 
+    color: #07070a; 
     margin-top: 1rem;
     text-align: center;
 }
@@ -48,10 +60,10 @@ input, button {
 /* Hidden state: slightly shifted down and completely invisible */
 .ingredient-item {
     font-size: 1.5rem;
-    background-color: #444; /* Soft box container for each ingredient */
+    background-color: #07070a; /* Soft box container for each ingredient */
     padding: 0.8rem 1.5rem;
     border-radius: 8px;
-    border-left: 5px solid #ffca28; /* Fun accent color line on the side */
+    border-left: 5px solid #f9c627; /* Fun accent color line on the side */
     opacity: 0;
     transform: translateY(15px);
     transition: opacity 0.5s ease, transform 0.5s ease;

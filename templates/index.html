@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='images/picklemansLogo.jpg') }}" alt="Pickleman's Gourmet Cafe Logo">
+    </div>
     <title>Roll For Sandwich</title>
     <link href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet" />
     <style>
@@ -10,7 +13,7 @@
         .rolling-text {
             font-size: 1.5rem;
             font-style: italic;
-            color: #888;
+            color: #ffffff;
             margin-top: 20px;
         }
         
@@ -36,7 +39,7 @@
     </style>
 </head>
 <body>
-    <h1>Roll For Sandwich</h1>
+    <h1>Roll For Sandwich Pickleman's</h1>
     
     <!-- Changed from a form to a simple button element -->
     <button id="rollButton">Click Me to Roll!</button>
