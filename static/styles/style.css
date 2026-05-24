@@ -35,6 +35,26 @@ input, button {
     cursor: pointer; /* Makes it clear the button is clickable */
 }
 
+/* -- style for the forms asking amount of sandwich choices -- */
+form {
+    padding: 20px;
+    background-color: #f9c627;
+    border-style: solid;
+    border-color: #07070a;
+    width: 80%;
+    max-width: 800px;
+}
+
+
+/* Styles for the large text and smaller text in paragraph elements */
+.large-text {
+    font-size: 24px;
+}
+
+.small-text {
+    font-size: 12px;
+}
+
 /* --- Added for the Dice Roll & Staggered Reveal --- */
 
 /* Buildup and rolling status text */

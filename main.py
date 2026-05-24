@@ -1,8 +1,15 @@
-from flask import Flask, render_template, jsonify  # <-- Make sure jsonify is here!
+from flask import Flask, render_template, jsonify, request
 from pprint import pprint
 from waitress import serve
 import random
 import os
+
+defaultSettings = True
+maxMeat = 3
+maxCheese = 2
+maxTopping = 6
+maxSauce = 2
+
 
 app = Flask(__name__)
 
@@ -15,6 +22,30 @@ def getOption(maxNum, givenList):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+#Gets the data from the froms from the frontend if the form is submitted
+@app.route('/submit', methods=['POST'])
+def handle_submit():
+
+    global defaultSettings, maxMeat, maxCheese, maxTopping, maxSauce
+
+    # 1. Grab the selected value using the 'name' attribute
+    max_meat_str = request.form.get('maxMeat')
+    
+    # 2. Check if the user actually selected an option and convert to int
+    if max_meat_str is not None:
+        try:
+            maxMeat = int(max_meat_str)
+            defaultSettings = False
+
+        except ValueError:
+            return "Invalid selection.", 400
+    else:
+        # Fallback if they hit submit without picking a radio button
+        maxMeat = 3 #default option
+
+    print(f"User chose max meat options: {maxMeat}")
+    return f"Selection saved! Total meat options: {maxMeat}"
 
 @app.route('/run-function', methods=['POST'])
 def run_function():
@@ -30,10 +61,18 @@ def run_function():
               "Buffalo Sauce", "BBQ", "Caesar", "V&O", "Italian Vin",
               "Spicy Mustard", "Balsamic", "Pepper Oil", "Marinara", "Au Jus", "None"]
     
-    numMeat = random.randint(0, 3)
-    numCheese = random.randint(0, 2)
-    numTopping = random.randint(0, 6)
-    numSauce = random.randint(0, 2)
+    #default settings activated on website boot or no forms submitted
+    if defaultSettings:
+        numMeat = random.randint(0, 3)
+        numCheese = random.randint(0, 2)
+        numTopping = random.randint(0, 6)
+        numSauce = random.randint(0, 2)
+    #At least one max option form submitted
+    else:
+        numMeat = random.randint(0, maxMeat)
+        numCheese = random.randint(0, maxCheese)
+        numTopping = random.randint(0, maxTopping)
+        numSauce = random.randint(0, maxSauce)
 
     # This creates the clean JSON data package the Javascript is waiting for
     return jsonify({

@@ -41,6 +41,30 @@
 <body>
     <h1>Roll For Sandwich Pickleman's</h1>
     
+<script src="https://unpkg.com/htmx.org@1.9.10"></script> <!-- link to htmx library >-->
+<div id="meat-form-container">
+    <p class="large-text">Choose The Max Random Meat Options</p>
+    <p class="small-text">Default Num Of Max Meat Max Meat Is 3 Randomly</p>
+    <form hx-post="/submit" hx-target="#meat-form-container">
+        <input type="radio" id="meat0" name="maxMeat" value="0">
+        <label for="meat0">0</label><br>
+        
+        <input type="radio" id="meat1" name="maxMeat" value="1">
+        <label for="meat1">1</label><br>
+        
+        <input type="radio" id="meat2" name="maxMeat" value="2">
+        <label for="meat2">2</label><br>
+        
+        <input type="radio" id="meat3" name="maxMeat" value="3">
+        <label for="meat3">3</label> <br><br>
+
+        <input type="submit" value="submit">
+    </form>
+</div>
+
+
+
+
     <!-- Changed from a form to a simple button element -->
     <button id="rollButton">Click Me to Roll!</button>
 
