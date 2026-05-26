@@ -29,23 +29,42 @@ def handle_submit():
 
     global defaultSettings, maxMeat, maxCheese, maxTopping, maxSauce
 
-    # 1. Grab the selected value using the 'name' attribute
+    # Grab whichever value was sent by the submitted form
     max_meat_str = request.form.get('maxMeat')
+    max_cheese_str = request.form.get('maxCheese')
+    max_topping_str = request.form.get('maxTopping')
+    max_sauce_str = request.form.get('maxSauce')
     
-    # 2. Check if the user actually selected an option and convert to int
-    if max_meat_str is not None:
-        try:
+    try:
+        # Check and update ONLY the item that was actually submitted
+        if max_meat_str is not None:
             maxMeat = int(max_meat_str)
             defaultSettings = False
+            print(f"User chose max meat option: {maxMeat}")
+            return f"Selection saved! Max Meats: {maxMeat}"
 
-        except ValueError:
-            return "Invalid selection.", 400
-    else:
-        # Fallback if they hit submit without picking a radio button
-        maxMeat = 3 #default option
+        elif max_cheese_str is not None:
+            maxCheese = int(max_cheese_str)
+            defaultSettings = False
+            print(f"User chose max cheese option: {maxCheese}")
+            return f"Selection saved! Max Cheese: {maxCheese}"
 
-    print(f"User chose max meat options: {maxMeat}")
-    return f"Selection saved! Total meat options: {maxMeat}"
+        elif max_topping_str is not None:
+            maxTopping = int(max_topping_str)
+            defaultSettings = False
+            print(f"User chose max toppings option: {maxTopping}")
+            return f"Selection saved! Max Toppings: {maxTopping}"
+
+        elif max_sauce_str is not None:
+            maxSauce = int(max_sauce_str)
+            defaultSettings = False
+            print(f"User chose max sauce option: {maxSauce}")
+            return f"Selection saved! Max Sauce: {maxSauce}"
+
+    except ValueError:
+        return "Invalid selection.", 400
+
+    return "No valid selection made.", 400
 
 @app.route('/run-function', methods=['POST'])
 def run_function():

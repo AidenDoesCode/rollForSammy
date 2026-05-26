@@ -40,29 +40,106 @@
 </head>
 <body>
     <h1>Roll For Sandwich Pickleman's</h1>
-    
-<script src="https://unpkg.com/htmx.org@1.9.10"></script> <!-- link to htmx library >-->
-<div id="meat-form-container">
-    <p class="large-text">Choose The Max Random Meat Options</p>
-    <p class="small-text">Default Num Of Max Meat Max Meat Is 3 Randomly</p>
-    <form hx-post="/submit" hx-target="#meat-form-container">
-        <input type="radio" id="meat0" name="maxMeat" value="0">
-        <label for="meat0">0</label><br>
-        
-        <input type="radio" id="meat1" name="maxMeat" value="1">
-        <label for="meat1">1</label><br>
-        
-        <input type="radio" id="meat2" name="maxMeat" value="2">
-        <label for="meat2">2</label><br>
-        
-        <input type="radio" id="meat3" name="maxMeat" value="3">
-        <label for="meat3">3</label> <br><br>
 
-        <input type="submit" value="submit">
-    </form>
+
+<!-- Elements for the user if they want to choose the max amount of options for each component of the sandwich-->
+<div id="settings-toggle-container" style="margin-bottom: 20px;">
+    <p class="large-text">Would you like to modify the default sandwich options?</p>
+    <input type="radio" id="modify-yes" name="modifySettings" value="yes">
+    <label for="modify-yes">Yes</label><br>
+    
+    <input type="radio" id="modify-no" name="modifySettings" value="no" checked>
+    <label for="modify-no">No (Keep Defaults)</label>
 </div>
 
+<div id="all-forms-container" style="display: none;">
 
+    <div id="meat-form-container">
+        <p class="large-text">Choose The Max Random Meat Options</p>
+        <p class="small-text">Default Num Of Max Meat Is 3 Randomly</p>
+        <form hx-post="/submit" hx-target="#meat-form-container">
+            <input type="radio" id="meat0" name="maxMeat" value="0">
+            <label for="meat0">0</label><br>
+            <input type="radio" id="meat1" name="maxMeat" value="1">
+            <label for="meat1">1</label><br>
+            <input type="radio" id="meat2" name="maxMeat" value="2">
+            <label for="meat2">2</label><br>
+            <input type="radio" id="meat3" name="maxMeat" value="3">
+            <label for="meat3">3</label> <br><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+    <div id="cheese-form-container">
+        <p class="large-text">Choose The Max Random Cheese Options</p>
+        <p class="small-text">Default Num Of Max Cheese Is 2 Randomly</p>
+        <form hx-post="/submit" hx-target="#cheese-form-container">
+            <input type="radio" id="cheese0" name="maxCheese" value="0">
+            <label for="cheese0">0</label><br>
+            <input type="radio" id="cheese1" name="maxCheese" value="1">
+            <label for="cheese1">1</label><br>
+            <input type="radio" id="cheese2" name="maxCheese" value="2">
+            <label for="cheese2">2</label><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+    <div id="topping-form-container">
+        <p class="large-text">Choose The Max Random Topping Options</p>
+        <p class="small-text">Default Num Of Max Toppings Is 6 Randomly</p>
+        <form hx-post="/submit" hx-target="#topping-form-container">
+            <input type="radio" id="topping0" name="maxTopping" value="0">
+            <label for="topping0">0</label><br>
+            <input type="radio" id="topping1" name="maxTopping" value="1">
+            <label for="topping1">1</label><br>
+            <input type="radio" id="topping2" name="maxTopping" value="2">
+            <label for="topping2">2</label><br>
+            <input type="radio" id="topping3" name="maxTopping" value="3">
+            <label for="topping3">3</label><br>
+            <input type="radio" id="topping4" name="maxTopping" value="4">
+            <label for="topping4">4</label><br>
+            <input type="radio" id="topping5" name="maxTopping" value="5">
+            <label for="topping5">5</label><br>
+            <input type="radio" id="topping6" name="maxTopping" value="6">
+            <label for="topping6">6</label><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+    <div id="sauce-form-container">
+        <p class="large-text">Choose The Max Random Sauce Options</p>
+        <p class="small-text">Default Num Of Max Sauce Is 2 Randomly</p>
+        <form hx-post="/submit" hx-target="#sauce-form-container">
+            <input type="radio" id="sauce0" name="maxSauce" value="0">
+            <label for="sauce0">0</label><br>
+            <input type="radio" id="sauce1" name="maxSauce" value="1">
+            <label for="sauce1">1</label><br>
+            <input type="radio" id="sauce2" name="maxSauce" value="2">
+            <label for="sauce2">2</label><br>
+            <input type="submit" value="submit">
+        </form>
+    </div>
+
+</div>
+
+<!--Script for the div container dispalying the random options, hidden by default-->
+<script>
+    const modifyYes = document.getElementById('modify-yes');
+    const modifyNo = document.getElementById('modify-no');
+    const formsContainer = document.getElementById('all-forms-container');
+
+    modifyYes.addEventListener('change', () => {
+        if (modifyYes.checked) {
+            formsContainer.style.display = 'block';
+        }
+    });
+
+    modifyNo.addEventListener('change', () => {
+        if (modifyNo.checked) {
+            formsContainer.style.display = 'none';
+        }
+    });
+</script>
 
 
     <!-- Changed from a form to a simple button element -->
