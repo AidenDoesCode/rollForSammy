@@ -1,96 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+/* --- Base Reset & Body Styles --- */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-/* CSS Styling */
-.image-container {
-  width: 100%;       /* Or any desired size like 500px, 50% */
-  max-width: 800px;  /* Optional: Prevents the container from becoming too large */
-}
-
-img {
-  width: 100%;       /* Forces the image to fill the width of its container */
-  height: auto;      /* Automatically adjusts the height to keep proportion */
-  display: block;    /* Removes the default extra bottom margin space */
 }
 
 body {
-    padding: 2rem;
-    background-color: #286c39;
-    color: whitesmoke;
-    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: #286c39; /* Exact Pickleman's Green Background */
+    color: #f4f7f5;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    font-size: 2rem;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
 }
 
-input, button {
-    font-size: 2rem;
-    padding: 1rem;
-    border-radius: 10px;
-    cursor: pointer; /* Makes it clear the button is clickable */
+/* --- Brand Header Styles --- */
+.image-container {
+    text-align: center;
+    margin-bottom: 15px;
 }
 
-/* -- style for the forms asking amount of sandwich choices -- */
-form {
+.image-container img {
+    max-width: 160px;
+    height: auto;
+    border-radius: 12px;
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: #ffcc00; /* Pickleman's Yellow Accent */
+    margin-bottom: 30px;
+    text-align: center;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Settings Toggle Block --- */
+#settings-toggle-container {
+    background: #1e4f2a; /* Deepened form card background for contrast */
     padding: 20px;
-    background-color: #f9c627;
-    border-style: solid;
-    border-color: #07070a;
-    width: 80%;
-    max-width: 800px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    border: 1px solid #ffcc00; /* Yellow accent border */
 }
 
+/* --- Configuration Responsive Grid Layout --- */
+#all-forms-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 30px;
+}
 
-/* Styles for the large text and smaller text in paragraph elements */
+#meat-form-container, 
+#cheese-form-container, 
+#topping-form-container, 
+#sauce-form-container {
+    background: #1e4f2a; /* Deepened form card background for contrast */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 1px solid #328547; /* Mid-tone green border to separate inputs */
+}
+
+/* --- Text Customizations --- */
 .large-text {
-    font-size: 24px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 4px;
 }
 
 .small-text {
-    font-size: 12px;
+    font-size: 0.85rem;
+    color: #a7d9b4; /* Lighter green accent text for descriptions */
+    margin-bottom: 12px;
 }
 
-/* --- Added for the Dice Roll & Staggered Reveal --- */
-
-/* Buildup and rolling status text */
-.rolling-text {
-    font-size: 1.8rem;
-    font-style: italic;
-    color: #07070a; 
-    margin-top: 1rem;
-    text-align: center;
-}
-
-/* Container for your rolling results */
-.ingredient-list {
-    list-style-type: none;
-    padding: 0;
-    width: 100%;
-    max-width: 500px; /* Keeps the list neatly aligned in the center */
+/* --- Form Layout Control --- */
+form {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 8px;
 }
 
-/* Hidden state: slightly shifted down and completely invisible */
+form div {
+    display: flex;
+    align-items: center;
+}
+
+/* --- Inputs & Selection States --- */
+input[type="radio"] {
+    accent-color: #ffcc00; /* Yellow accent for the active radio selector circles */
+    margin-right: 10px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+label {
+    font-size: 1rem;
+    color: #e5ebe6;
+    cursor: pointer;
+    user-select: none;
+}
+
+label:hover {
+    color: #ffcc00; /* Subtle text glow on option hover */
+}
+
+/* --- Submit Buttons --- */
+input[type="submit"] {
+    background-color: #286c39;
+    color: #ffcc00;
+    border: 1px solid #ffcc00;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #ffcc00;
+    color: #1e4f2a;
+}
+
+/* --- Central CTA Roll Button --- */
+#rollButton {
+    background: linear-gradient(135deg, #ffcc00, #e6b800);
+    color: #1e4f2a;
+    font-size: 1.3rem;
+    font-weight: 800;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    margin: 20px 0;
+}
+
+#rollButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 204, 0, 0.3);
+}
+
+#rollButton:active {
+    transform: translateY(1px);
+}
+
+/* --- Output Display and Streaming --- */
+.rolling-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffcc00;
+    margin-top: 20px;
+    min-height: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.ingredient-list {
+    background: #1e4f2a;
+    padding: 24px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 4px 15px rgba(0,0,0,0.3);
+    margin-top: 20px;
+    border: 1px solid #ffcc00; /* Matches header accents */
+    list-style: none;
+}
+
 .ingredient-item {
-    font-size: 1.5rem;
-    background-color: #07070a; /* Soft box container for each ingredient */
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    border-left: 5px solid #f9c627; /* Fun accent color line on the side */
-    opacity: 0;
-    transform: translateY(15px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    font-size: 1.1rem;
+    padding: 12px 0;
+    border-bottom: 1px solid #328547;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-/* Active state: slides up smoothly and fades in */
-.ingredient-item.visible {
-    opacity: 1;
-    transform: translateY(0);
+.ingredient-item:last-child {
+    border-bottom: none;
+}
+
+.ingredient-item strong {
+    color: #ffcc00;
 }

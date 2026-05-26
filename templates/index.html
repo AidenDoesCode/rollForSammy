@@ -3,30 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <div class="image-container">
-        <img src="{{ url_for('static', filename='images/picklemansLogo.jpg') }}" alt="Pickleman's Gourmet Cafe Logo">
-    </div>
     <title>Roll For Sandwich</title>
     <link href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet" />
-    <style>
-        /* Simple styling for the buildup text */
-        .rolling-text {
-            font-size: 1.5rem;
-            font-style: italic;
-            color: #ffffff;
-            margin-top: 20px;
-        }
-        
-        /* Hidden layout by default, shown when items appear */
-        .ingredient-list {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script> <style>
+        /* Animation properties for buildup text and dynamic items */
         .ingredient-item {
-            font-size: 1.2rem;
-            margin: 10px 0;
             opacity: 0;
             transform: translateY(10px);
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -39,164 +20,149 @@
     </style>
 </head>
 <body>
+
+    <div class="image-container">
+        <img src="{{ url_for('static', filename='images/picklemansLogo.jpg') }}" alt="Pickleman's Gourmet Cafe Logo">
+    </div>
+
     <h1>Roll For Sandwich Pickleman's</h1>
 
-
-<!-- Elements for the user if they want to choose the max amount of options for each component of the sandwich-->
-<div id="settings-toggle-container" style="margin-bottom: 20px;">
-    <p class="large-text">Would you like to modify the default sandwich options?</p>
-    <input type="radio" id="modify-yes" name="modifySettings" value="yes">
-    <label for="modify-yes">Yes</label><br>
-    
-    <input type="radio" id="modify-no" name="modifySettings" value="no" checked>
-    <label for="modify-no">No (Keep Defaults)</label>
-</div>
-
-<div id="all-forms-container" style="display: none;">
-
-    <div id="meat-form-container">
-        <p class="large-text">Choose The Max Random Meat Options</p>
-        <p class="small-text">Default Num Of Max Meat Is 3 Randomly</p>
-        <form hx-post="/submit" hx-target="#meat-form-container">
-            <input type="radio" id="meat0" name="maxMeat" value="0">
-            <label for="meat0">0</label><br>
-            <input type="radio" id="meat1" name="maxMeat" value="1">
-            <label for="meat1">1</label><br>
-            <input type="radio" id="meat2" name="maxMeat" value="2">
-            <label for="meat2">2</label><br>
-            <input type="radio" id="meat3" name="maxMeat" value="3">
-            <label for="meat3">3</label> <br><br>
-            <input type="submit" value="submit">
-        </form>
+    <div id="settings-toggle-container">
+        <p class="large-text">Would you like to modify the default sandwich options?</p>
+        <div style="margin-top: 10px;">
+            <input type="radio" id="modify-yes" name="modifySettings" value="yes">
+            <label for="modify-yes">Yes</label>
+            <span style="margin: 0 15px;"></span>
+            <input type="radio" id="modify-no" name="modifySettings" value="no" checked>
+            <label for="modify-no">No (Keep Defaults)</label>
+        </div>
     </div>
 
-    <div id="cheese-form-container">
-        <p class="large-text">Choose The Max Random Cheese Options</p>
-        <p class="small-text">Default Num Of Max Cheese Is 2 Randomly</p>
-        <form hx-post="/submit" hx-target="#cheese-form-container">
-            <input type="radio" id="cheese0" name="maxCheese" value="0">
-            <label for="cheese0">0</label><br>
-            <input type="radio" id="cheese1" name="maxCheese" value="1">
-            <label for="cheese1">1</label><br>
-            <input type="radio" id="cheese2" name="maxCheese" value="2">
-            <label for="cheese2">2</label><br>
-            <input type="submit" value="submit">
-        </form>
+    <!-- HIDDEN ON DEFAULT, CHANGES IF USER CLICKS YES TO THE FORM ABOVE-->
+    <div id="all-forms-container" style="display: none;">
+
+        <div id="meat-form-container">
+            <p class="large-text">Max Meat Options</p>
+            <p class="small-text">Default Max Meat is 3</p>
+            <form hx-post="/submit" hx-target="#meat-form-container">
+                <div><input type="radio" id="meat0" name="maxMeat" value="0"><label for="meat0">0</label></div>
+                <div><input type="radio" id="meat1" name="maxMeat" value="1"><label for="meat1">1</label></div>
+                <div><input type="radio" id="meat2" name="maxMeat" value="2"><label for="meat2">2</label></div>
+                <div><input type="radio" id="meat3" name="maxMeat" value="3"><label for="meat3">3</label></div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="cheese-form-container">
+            <p class="large-text">Max Cheese Options</p>
+            <p class="small-text">Default Max Cheese is 2</p>
+            <form hx-post="/submit" hx-target="#cheese-form-container">
+                <div><input type="radio" id="cheese0" name="maxCheese" value="0"><label for="cheese0">0</label></div>
+                <div><input type="radio" id="cheese1" name="maxCheese" value="1"><label for="cheese1">1</label></div>
+                <div><input type="radio" id="cheese2" name="maxCheese" value="2"><label for="cheese2">2</label></div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="topping-form-container">
+            <p class="large-text">Max Topping Options</p>
+            <p class="small-text">Default Max Toppings is 6</p>
+            <form hx-post="/submit" hx-target="#topping-form-container">
+                <div><input type="radio" id="topping0" name="maxTopping" value="0"><label for="topping0">0</label></div>
+                <div><input type="radio" id="topping1" name="maxTopping" value="1"><label for="topping1">1</label></div>
+                <div><input type="radio" id="topping2" name="maxTopping" value="2"><label for="topping2">2</label></div>
+                <div><input type="radio" id="topping3" name="maxTopping" value="3"><label for="topping3">3</label></div>
+                <div><input type="radio" id="topping4" name="maxTopping" value="4"><label for="topping4">4</label></div>
+                <div><input type="radio" id="topping5" name="maxTopping" value="5"><label for="topping5">5</label></div>
+                <div><input type="radio" id="topping6" name="maxTopping" value="6"><label for="topping6">6</label></div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="sauce-form-container">
+            <p class="large-text">Max Sauce Options</p>
+            <p class="small-text">Default Max Sauce is 2</p>
+            <form hx-post="/submit" hx-target="#sauce-form-container">
+                <div><input type="radio" id="sauce0" name="maxSauce" value="0"><label for="sauce0">0</label></div>
+                <div><input type="radio" id="sauce1" name="maxSauce" value="1"><label for="sauce1">1</label></div>
+                <div><input type="radio" id="sauce2" name="maxSauce" value="2"><label for="sauce2">2</label></div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
     </div>
 
-    <div id="topping-form-container">
-        <p class="large-text">Choose The Max Random Topping Options</p>
-        <p class="small-text">Default Num Of Max Toppings Is 6 Randomly</p>
-        <form hx-post="/submit" hx-target="#topping-form-container">
-            <input type="radio" id="topping0" name="maxTopping" value="0">
-            <label for="topping0">0</label><br>
-            <input type="radio" id="topping1" name="maxTopping" value="1">
-            <label for="topping1">1</label><br>
-            <input type="radio" id="topping2" name="maxTopping" value="2">
-            <label for="topping2">2</label><br>
-            <input type="radio" id="topping3" name="maxTopping" value="3">
-            <label for="topping3">3</label><br>
-            <input type="radio" id="topping4" name="maxTopping" value="4">
-            <label for="topping4">4</label><br>
-            <input type="radio" id="topping5" name="maxTopping" value="5">
-            <label for="topping5">5</label><br>
-            <input type="radio" id="topping6" name="maxTopping" value="6">
-            <label for="topping6">6</label><br>
-            <input type="submit" value="submit">
-        </form>
-    </div>
-
-    <div id="sauce-form-container">
-        <p class="large-text">Choose The Max Random Sauce Options</p>
-        <p class="small-text">Default Num Of Max Sauce Is 2 Randomly</p>
-        <form hx-post="/submit" hx-target="#sauce-form-container">
-            <input type="radio" id="sauce0" name="maxSauce" value="0">
-            <label for="sauce0">0</label><br>
-            <input type="radio" id="sauce1" name="maxSauce" value="1">
-            <label for="sauce1">1</label><br>
-            <input type="radio" id="sauce2" name="maxSauce" value="2">
-            <label for="sauce2">2</label><br>
-            <input type="submit" value="submit">
-        </form>
-    </div>
-
-</div>
-
-<!--Script for the div container dispalying the random options, hidden by default-->
-<script>
-    const modifyYes = document.getElementById('modify-yes');
-    const modifyNo = document.getElementById('modify-no');
-    const formsContainer = document.getElementById('all-forms-container');
-
-    modifyYes.addEventListener('change', () => {
-        if (modifyYes.checked) {
-            formsContainer.style.display = 'block';
-        }
-    });
-
-    modifyNo.addEventListener('change', () => {
-        if (modifyNo.checked) {
-            formsContainer.style.display = 'none';
-        }
-    });
-</script>
-
-
-    <!-- Changed from a form to a simple button element -->
     <button id="rollButton">Click Me to Roll!</button>
 
     <div id="diceStatus" class="rolling-text"></div>
     <ul id="sandwichResult" class="ingredient-list"></ul>
 
+
+    <!-- JS Script for the dice animation-->
     <script>
-        document.getElementById('rollButton').addEventListener('click', async () => {
-            const statusDiv = document.getElementById('diceStatus');
-            const resultList = document.getElementById('sandwichResult');
-            
-            // Clear out old results
-            statusDiv.textContent = "";
-            resultList.innerHTML = "";
-            
-            // 1. Initiate a slow build up dice roll animation in text
-            let seconds = 0;
-            const animationInterval = setInterval(() => {
-                const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
-                const randomFace = diceFaces[Math.floor(Math.random() * diceFaces.length)];
-                statusDiv.textContent = `${randomFace} Rolling the dice...`;
-            }, 100);
+        document.addEventListener('DOMContentLoaded', () => {
+            const modifyYes = document.getElementById('modify-yes');
+            const modifyNo = document.getElementById('modify-no');
+            const formsContainer = document.getElementById('all-forms-container');
 
-            try {
-                // Fetch data from Flask backend while animation plays
-                const response = await fetch("{{ url_for('run_function') }}", { method: 'POST' });
-                const sandwichData = await response.json();
+            // Form Visibility Handler
+            if (modifyYes && modifyNo && formsContainer) {
+                modifyYes.addEventListener('change', () => {
+                    if (modifyYes.checked) {
+                        formsContainer.style.setProperty('display', 'grid', 'important');
+                    }
+                });
 
-                // Wait 1.5 seconds total for the dramatic buildup effect
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                clearInterval(animationInterval);
-                statusDiv.textContent = "🎲 The dice have settled! Let's build it:";
+                modifyNo.addEventListener('change', () => {
+                    if (modifyNo.checked) {
+                        formsContainer.style.setProperty('display', 'none', 'important');
+                    }
+                });
+            }
 
-                // 2. List each component slowly one-by-one
-                let delay = 0;
-                for (const [category, items] of Object.entries(sandwichData)) {
-                    await new Promise(resolve => setTimeout(resolve, 1000)); // 1-second pause between components
+            // Interactive Dice Rolling Handler
+            const rollButton = document.getElementById('rollButton');
+            if (rollButton) {
+                rollButton.addEventListener('click', async () => {
+                    const statusDiv = document.getElementById('diceStatus');
+                    const resultList = document.getElementById('sandwichResult');
                     
-                    const li = document.createElement('li');
-                    li.className = 'ingredient-item';
+                    statusDiv.textContent = "";
+                    resultList.innerHTML = "";
                     
-                    // Clean up array display (e.g., ["White"] -> "White" or empty arrays -> "None")
-                    const itemsString = items.length > 0 ? items.join(', ') : 'None';
-                    li.innerHTML = `<strong>${category}:</strong> ${itemsString}`;
-                    
-                    resultList.appendChild(li);
-                    
-                    // Trigger the fade-in and slide-up animation
-                    setTimeout(() => li.classList.add('visible'), 50);
-                }
+                    const animationInterval = setInterval(() => {
+                        const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+                        const randomFace = diceFaces[Math.floor(Math.random() * diceFaces.length)];
+                        statusDiv.textContent = `${randomFace} Rolling the dice...`;
+                    }, 100);
 
-            } catch (error) {
-                clearInterval(animationInterval);
-                statusDiv.textContent = "Oops! Something went wrong with the roll.";
-                console.error(error);
+                    try {
+                        const response = await fetch("{{ url_for('run_function') }}", { method: 'POST' });
+                        const sandwichData = await response.json();
+
+                        await new Promise(resolve => setTimeout(resolve, 1500));
+                        clearInterval(animationInterval);
+                        statusDiv.textContent = "🎲 The dice have settled! Let's build it:";
+
+                        for (const [category, items] of Object.entries(sandwichData)) {
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            
+                            const li = document.createElement('li');
+                            li.className = 'ingredient-item';
+                            
+                            const itemsString = items.length > 0 ? items.join(', ') : 'None';
+                            li.innerHTML = `<span><strong>${category}:</strong></span> <span style="text-align: right; color: #fff; padding-left: 15px;">${itemsString}</span>`;
+                            
+                            resultList.appendChild(li);
+                            setTimeout(() => li.classList.add('visible'), 50);
+                        }
+
+                    } catch (error) {
+                        clearInterval(animationInterval);
+                        statusDiv.textContent = "Oops! Something went wrong with the roll.";
+                        console.error(error);
+                    }
+                });
             }
         });
     </script>
