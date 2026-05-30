@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roll For Sandwich</title>
     <link href="{{ url_for('static', filename='styles/style.css') }}" rel="stylesheet" />
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script> <style>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script> 
+    <style>
         /* Animation properties for buildup text and dynamic items */
         .ingredient-item {
             opacity: 0;
@@ -38,70 +39,63 @@
         </div>
     </div>
 
-    <!--  Container for all the user choices if they want to modify the sandwiches -->
-
-
-    
     <div id="all-forms-container" style="display: none;">
-
-        <!-- Start of specific choices containers -->
 
         <div id="choose-meat-container">
             <p class="large-text">Choose How Many Meats You Want.</p>
-            <form hx-post="/submit"  hx-target="choose-meat-container">
-                <div><input type="radio" id="meat0" name="numMeat" value="0"><label for="meat0">0</label></div>
-                <div><input type="radio" id="meat1" name="numMeat" value="1"><label for="meat1">1</label></div>
-                <div><input type="radio" id="meat2" name="numMeat" value="2"><label for="meat2">2</label></div>
-                <div><input type="radio" id="meat3" name="numMeat" value="3"><label for="meat3">3</label></div>
+            <form hx-post="/submit-choice" hx-target="#choose-meat-container">
+                <div><input type="radio" id="meatChoice0" name="numMeat" value="0"><label for="meatChoice0">0</label></div>
+                <div><input type="radio" id="meatChoice1" name="numMeat" value="1"><label for="meatChoice1">1</label></div>
+                <div><input type="radio" id="meatChoice2" name="numMeat" value="2"><label for="meatChoice2">2</label></div>
+                <div><input type="radio" id="meatChoice3" name="numMeat" value="3"><label for="meatChoice3">3</label></div>
+                <input type="submit" value="Submit">
             </form>
         </div>
 
         <div id="choose-cheese-container">
             <p class="large-text">Choose How Many Cheeses You Want.</p>
-            <form hx-post="/submit"  hx-target="choose-cheese-container">
-                <div><input type="radio" id="cheese0" name="numCheese" value="0"><label for="cheese0">0</label></div>
-                <div><input type="radio" id="cheese1" name="numCheese" value="1"><label for="cheese1">1</label></div>
-                <div><input type="radio" id="cheese2" name="numCheese" value="2"><label for="cheese2">2</label></div>
-                <div><input type="radio" id="cheese3" name="numCheese" value="3"><label for="cheese3">3</label></div>
+            <form hx-post="/submit-choice" hx-target="#choose-cheese-container">
+                <div><input type="radio" id="cheeseChoice0" name="numCheese" value="0"><label for="cheeseChoice0">0</label></div>
+                <div><input type="radio" id="cheeseChoice1" name="numCheese" value="1"><label for="cheeseChoice1">1</label></div>
+                <div><input type="radio" id="cheeseChoice2" name="numCheese" value="2"><label for="cheeseChoice2">2</label></div>
+                <div><input type="radio" id="cheeseChoice3" name="numCheese" value="3"><label for="cheeseChoice3">3</label></div>
+                <input type="submit" value="Submit">
             </form>
         </div>
 
         <div id="choose-topping-container">
             <p class="large-text">Choose How Many Toppings You Want.</p>
-            <form hx-post="/submit"  hx-target="choose-topping-container">
-                <div><input type="radio" id="topping0" name="numTopping" value="0"><label for="topping0">0</label></div>
-                <div><input type="radio" id="topping1" name="numTopping" value="1"><label for="topping1">1</label></div>
-                <div><input type="radio" id="topping2" name="numTopping" value="2"><label for="topping2">2</label></div>
-                <div><input type="radio" id="topping3" name="numTopping" value="3"><label for="topping3">3</label></div>
-                <div><input type="radio" id="topping4" name="numTopping" value="4"><label for="topping3">4</label></div>
-                <div><input type="radio" id="topping5" name="numTopping" value="5"><label for="topping3">5</label></div>
-                <div><input type="radio" id="topping6" name="numTopping" value="6"><label for="topping3">6</label></div>
+            <form hx-post="/submit-choice" hx-target="#choose-topping-container">
+                <div><input type="radio" id="toppingChoice0" name="numTopping" value="0"><label for="toppingChoice0">0</label></div>
+                <div><input type="radio" id="toppingChoice1" name="numTopping" value="1"><label for="toppingChoice1">1</label></div>
+                <div><input type="radio" id="toppingChoice2" name="numTopping" value="2"><label for="toppingChoice2">2</label></div>
+                <div><input type="radio" id="toppingChoice3" name="numTopping" value="3"><label for="toppingChoice3">3</label></div>
+                <div><input type="radio" id="toppingChoice4" name="numTopping" value="4"><label for="toppingChoice4">4</label></div>
+                <div><input type="radio" id="toppingChoice5" name="numTopping" value="5"><label for="toppingChoice5">5</label></div>
+                <div><input type="radio" id="toppingChoice6" name="numTopping" value="6"><label for="toppingChoice6">6</label></div>
+                <input type="submit" value="Submit">
             </form>
         </div>
 
         <div id="choose-sauce-container">
             <p class="large-text">Choose How Many Sauces You Want.</p>
-            <form hx-post="/submit"  hx-target="choose-sauce-container">
-                <div><input type="radio" id="sauce0" name="numSauce" value="0"><label for="sauce0">0</label></div>
-                <div><input type="radio" id="sauce1" name="numSauce" value="1"><label for="sauce1">1</label></div>
-                <div><input type="radio" id="sauce2" name="numSauce" value="2"><label for="sauce2">2</label></div>
-                <div><input type="radio" id="sauce3" name="numSauce" value="3"><label for="sauce3">3</label></div>
+            <form hx-post="/submit-choice" hx-target="#choose-sauce-container">
+                <div><input type="radio" id="sauceChoice0" name="numSauce" value="0"><label for="sauceChoice0">0</label></div>
+                <div><input type="radio" id="sauceChoice1" name="numSauce" value="1"><label for="sauceChoice1">1</label></div>
+                <div><input type="radio" id="sauceChoice2" name="numSauce" value="2"><label for="sauceChoice2">2</label></div>
+                <div><input type="radio" id="sauceChoice3" name="numSauce" value="3"><label for="sauceChoice3">3</label></div>
+                <input type="submit" value="Submit">
             </form>
         </div>
 
-        <!-- End of specific choices containers -->
-
         <hr class="custom-divider">
         
-
-        <!--  Start of the random option containers  -->
-
-        <p class="largest-text center-text" >Random Options Down Here &#8595;</p>
+        <p class="large-text center-text">Random Options Down Here &#8595;</p>
 
         <div id="meat-form-container-rand">
             <p class="large-text">Max Meat Options</p>
             <p class="small-text">Default Max Meat is 3</p>
-            <form hx-post="/submit" hx-target="#meat-form-container-rand">
+            <form hx-post="/submit-random" hx-target="#meat-form-container-rand">
                 <div><input type="radio" id="meat0" name="maxMeat" value="0"><label for="meat0">0</label></div>
                 <div><input type="radio" id="meat1" name="maxMeat" value="1"><label for="meat1">1</label></div>
                 <div><input type="radio" id="meat2" name="maxMeat" value="2"><label for="meat2">2</label></div>
@@ -113,7 +107,7 @@
         <div id="cheese-form-container-rand">
             <p class="large-text">Max Cheese Options</p>
             <p class="small-text">Default Max Cheese is 2</p>
-            <form hx-post="/submit" hx-target="#cheese-form-container-rand">
+            <form hx-post="/submit-random" hx-target="#cheese-form-container-rand">
                 <div><input type="radio" id="cheese0" name="maxCheese" value="0"><label for="cheese0">0</label></div>
                 <div><input type="radio" id="cheese1" name="maxCheese" value="1"><label for="cheese1">1</label></div>
                 <div><input type="radio" id="cheese2" name="maxCheese" value="2"><label for="cheese2">2</label></div>
@@ -124,7 +118,7 @@
         <div id="topping-form-container-rand">
             <p class="large-text">Max Topping Options</p>
             <p class="small-text">Default Max Toppings is 6</p>
-            <form hx-post="/submit" hx-target="#topping-form-container-rand">
+            <form hx-post="/submit-random" hx-target="#topping-form-container-rand">
                 <div><input type="radio" id="topping0" name="maxTopping" value="0"><label for="topping0">0</label></div>
                 <div><input type="radio" id="topping1" name="maxTopping" value="1"><label for="topping1">1</label></div>
                 <div><input type="radio" id="topping2" name="maxTopping" value="2"><label for="topping2">2</label></div>
@@ -139,7 +133,7 @@
         <div id="sauce-form-container-rand">
             <p class="large-text">Max Sauce Options</p>
             <p class="small-text">Default Max Sauce is 2</p>
-            <form hx-post="/submit" hx-target="#sauce-form-container-rand">
+            <form hx-post="/submit-random" hx-target="#sauce-form-container-rand">
                 <div><input type="radio" id="sauce0" name="maxSauce" value="0"><label for="sauce0">0</label></div>
                 <div><input type="radio" id="sauce1" name="maxSauce" value="1"><label for="sauce1">1</label></div>
                 <div><input type="radio" id="sauce2" name="maxSauce" value="2"><label for="sauce2">2</label></div>
@@ -147,15 +141,12 @@
             </form>
         </div>
 
-        <!--  End of the random option containers  -->
-
         </div>
 
     <button id="rollButton">Click Me to Roll!</button>
 
     <div id="diceStatus" class="rolling-text"></div>
     <ul id="sandwichResult" class="ingredient-list"></ul>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
