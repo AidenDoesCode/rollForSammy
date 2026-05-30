@@ -63,10 +63,14 @@ h1 {
     margin-bottom: 30px;
 }
 
-#meat-form-container, 
-#cheese-form-container, 
-#topping-form-container, 
-#sauce-form-container {
+#choose-meat-container,
+#choose-cheese-container,
+#choose-topping-container,
+#choose-sauce-container,
+#meat-form-container-rand, 
+#cheese-form-container-rand, 
+#topping-form-container-rand, 
+#sauce-form-container-rand {
     background: #1e4f2a; /* Deepened form card background for contrast */
     padding: 20px;
     border-radius: 12px;
@@ -75,6 +79,15 @@ h1 {
 }
 
 /* --- Text Customizations --- */
+
+.largest-text {
+    font-weight: 800;
+    font-size: 1.35rem;
+    color: #ffffff;
+    margin-bottom: 8px;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
 .large-text {
     font-weight: 600;
     font-size: 1.1rem;
@@ -87,6 +100,23 @@ h1 {
     color: #a7d9b4; /* Lighter green accent text for descriptions */
     margin-bottom: 12px;
 }
+
+.center-text {
+    text-align: center;
+    grid-column: 1 / -1; /* Forces the text element to span the entire width of the grid */
+}
+
+
+/* Style for the line divider on the <hr> element*/
+
+.custom-divider {
+    border: none;               /* Remove default border style */
+    border-top: 3px dashed #ffcc00; /* Height, style, and hex color */
+    width: 100%;                /* Full width of the grid row */
+    margin: 20px 0;             /* Top/Bottom spacing */
+    grid-column: 1 / -1;        /* Spans completely across all grid tracks */
+}
+
 
 /* --- Form Layout Control --- */
 form {
