@@ -18,6 +18,37 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Responsive grid styling for item exclusions */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            text-align: left;
+            margin-bottom: 15px;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .category-header {
+            grid-column: 1 / -1; 
+            border-bottom: 1px solid #555; 
+            margin-top: 15px;
+            padding-bottom: 5px;
+            color: #ffcc00;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .category-header:first-child {
+            margin-top: 0;
+        }
+
+        #exclusions-container {
+            grid-column: 1 / -1;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -39,7 +70,86 @@
         </div>
     </div>
 
+    <!-- Container for all configuration panels -->
     <div id="all-forms-container" style="display: none;">
+
+        <!-- Start of Exclusions Section -->
+        <div id="exclusions-container">
+            <p class="large-text" style="text-align: center; font-weight: bold;">Veto Specific Ingredients (Check to Exclude)</p>
+            <form hx-post="/submit-exclusions" hx-target="#exclusion-status">
+                <div class="checkbox-grid">
+                    
+                    <!-- MEATS -->
+                    <div class="category-header">Meats</div>
+                    <div><input type="checkbox" id="excl-turkey" name="exclude" value="Turkey"><label for="excl-turkey">Turkey</label></div>
+                    <div><input type="checkbox" id="excl-ham" name="exclude" value="Ham"><label for="excl-ham">Ham</label></div>
+                    <div><input type="checkbox" id="excl-salami" name="exclude" value="Salami Capicola"><label for="excl-salami">Salami Capicola</label></div>
+                    <div><input type="checkbox" id="excl-chicken" name="exclude" value="Chicken"><label for="excl-chicken">Chicken</label></div>
+                    <div><input type="checkbox" id="excl-beef" name="exclude" value="Beef"><label for="excl-beef">Beef</label></div>
+                    <div><input type="checkbox" id="excl-csalad" name="exclude" value="Chicken Salad"><label for="excl-csalad">Chicken Salad</label></div>
+                    <div><input type="checkbox" id="excl-pork" name="exclude" value="Pork"><label for="excl-pork">Pork</label></div>
+                    <div><input type="checkbox" id="excl-sausage" name="exclude" value="Sausage"><label for="excl-sausage">Sausage</label></div>
+                    <div><input type="checkbox" id="excl-pepperoni" name="exclude" value="Pepperoni"><label for="excl-pepperoni">Pepperoni</label></div>
+                    <div><input type="checkbox" id="excl-bacon" name="exclude" value="Bacon"><label for="excl-bacon">Bacon</label></div>
+
+                    <!-- CHEESE -->
+                    <div class="category-header">Cheeses</div>
+                    <div><input type="checkbox" id="excl-provolone" name="exclude" value="Provolone"><label for="excl-provolone">Provolone</label></div>
+                    <div><input type="checkbox" id="excl-mozzarella" name="exclude" value="Mozzarella"><label for="excl-mozzarella">Mozzarella</label></div>
+                    <div><input type="checkbox" id="excl-cheddar" name="exclude" value="Cheddar"><label for="excl-cheddar">Cheddar</label></div>
+                    <div><input type="checkbox" id="excl-bleu" name="exclude" value="Bleu Cheese"><label for="excl-bleu">Bleu Cheese</label></div>
+
+                    <!-- TOPPINGS -->
+                    <div class="category-header">Toppings</div>
+                    <div><input type="checkbox" id="excl-lettuce" name="exclude" value="Lettuce"><label for="excl-lettuce">Lettuce</label></div>
+                    <div><input type="checkbox" id="excl-tomato" name="exclude" value="Tomato"><label for="excl-tomato">Tomato</label></div>
+                    <div><input type="checkbox" id="excl-onion" name="exclude" value="Onion"><label for="excl-onion">Onion</label></div>
+                    <div><input type="checkbox" id="excl-pickles" name="exclude" value="Pickles"><label for="excl-pickles">Pickles</label></div>
+                    <div><input type="checkbox" id="excl-olives" name="exclude" value="Olives"><label for="excl-olives">Olives</label></div>
+                    <div><input type="checkbox" id="excl-banana" name="exclude" value="Banana Peppers"><label for="excl-banana">Banana Peppers</label></div>
+                    <div><input type="checkbox" id="excl-gardinara" name="exclude" value="Gardinara Peppers"><label for="excl-gardinara">Gardinara Peppers</label></div>
+                    <div><input type="checkbox" id="excl-cucumbers" name="exclude" value="Cucumbers"><label for="excl-cucumbers">Cucumbers</label></div>
+                    <div><input type="checkbox" id="excl-spinach" name="exclude" value="Spinach"><label for="excl-spinach">Spinach</label></div>
+                    <div><input type="checkbox" id="excl-avocado" name="exclude" value="Avocado"><label for="excl-avocado">Avocado</label></div>
+                    <div><input type="checkbox" id="excl-garlic" name="exclude" value="Garlic Butter"><label for="excl-garlic">Garlic Butter</label></div>
+                    <div><input type="checkbox" id="excl-egg" name="exclude" value="Egg"><label for="excl-egg">Egg</label></div>
+                    <div><input type="checkbox" id="excl-walnuts" name="exclude" value="Walnuts"><label for="excl-walnuts">Walnuts</label></div>
+                    <div><input type="checkbox" id="excl-cran" name="exclude" value="Cranberries"><label for="excl-cran">Cranberries</label></div>
+                    <div><input type="checkbox" id="excl-ital" name="exclude" value="Italian Seasoning"><label for="excl-ital">Italian Seasoning</label></div>
+                    <div><input type="checkbox" id="excl-parm" name="exclude" value="Grated Parmesan"><label for="excl-parm">Grated Parmesan</label></div>
+                    <div><input type="checkbox" id="excl-salt" name="exclude" value="Salt"><label for="excl-salt">Salt</label></div>
+                    <div><input type="checkbox" id="excl-pepper" name="exclude" value="Pepper"><label for="excl-pepper">Pepper</label></div>
+
+                    <!-- SAUCES -->
+                    <div class="category-header">Sauces</div>
+                    <div><input type="checkbox" id="excl-mayo" name="exclude" value="Mayo"><label for="excl-mayo">Mayo</label></div>
+                    <div><input type="checkbox" id="excl-mustard" name="exclude" value="Mustard"><label for="excl-mustard">Mustard</label></div>
+                    <div><input type="checkbox" id="excl-hmust" name="exclude" value="Honey Mustard"><label for="excl-hmust">Honey Mustard</label></div>
+                    <div><input type="checkbox" id="excl-ranch" name="exclude" value="Ranch"><label for="excl-ranch">Ranch</label></div>
+                    <div><input type="checkbox" id="excl-chipotle" name="exclude" value="Chipotle Ranch"><label for="excl-chipotle">Chipotle Ranch</label></div>
+                    <div><input type="checkbox" id="excl-buffalo" name="exclude" value="Buffalo Sauce"><label for="excl-buffalo">Buffalo Sauce</label></div>
+                    <div><input type="checkbox" id="excl-bbq" name="exclude" value="BBQ"><label for="excl-bbq">BBQ</label></div>
+                    <div><input type="checkbox" id="excl-caesar" name="exclude" value="Caesar"><label for="excl-caesar">Caesar</label></div>
+                    <div><input type="checkbox" id="excl-vo" name="exclude" value="V&O"><label for="excl-vo">V&O</label></div>
+                    <div><input type="checkbox" id="excl-ivin" name="exclude" value="Italian Vin"><label for="excl-ivin">Italian Vin</label></div>
+                    <div><input type="checkbox" id="excl-smust" name="exclude" value="Spicy Mustard"><label for="excl-smust">Spicy Mustard</label></div>
+                    <div><input type="checkbox" id="excl-bals" name="exclude" value="Balsamic"><label for="excl-bals">Balsamic</label></div>
+                    <div><input type="checkbox" id="excl-pepoil" name="exclude" value="Pepper Oil"><label for="excl-pepoil">Pepper Oil</label></div>
+                    <div><input type="checkbox" id="excl-mari" name="exclude" value="Marinara"><label for="excl-mari">Marinara</label></div>
+                    <div><input type="checkbox" id="excl-aujus" name="exclude" value="Au Jus"><label for="excl-aujus">Au Jus</label></div>
+                </div>
+
+                <div style="text-align: center;">
+                    <input type="submit" value="Save Exclusions">
+                    <div id="exclusion-status" style="margin-top: 10px; font-weight: bold; color: #ffcc00;"></div>
+                </div>
+            </form>
+        </div>
+        <!-- End of Exclusions Section -->
+
+        <hr class="custom-divider" style="grid-column: 1 / -1;">
+
+        <!-- Start of specific choices containers -->
 
         <div id="choose-meat-container">
             <p class="large-text">Choose How Many Meats You Want.</p>
@@ -88,9 +198,13 @@
             </form>
         </div>
 
-        <hr class="custom-divider">
+        <!-- End of specific choices containers -->
+
+        <hr class="custom-divider" style="grid-column: 1 / -1;">
         
-        <p class="large-text center-text">Random Options Down Here &#8595;</p>
+        <!-- Start of random option containers -->
+
+        <p class="large-text center-text" style="grid-column: 1 / -1;">Random Options Down Here &#8595;</p>
 
         <div id="meat-form-container-rand">
             <p class="large-text">Max Meat Options</p>
@@ -141,7 +255,9 @@
             </form>
         </div>
 
-        </div>
+        <!-- End of random option containers -->
+
+    </div>
 
     <button id="rollButton">Click Me to Roll!</button>
 
@@ -154,7 +270,7 @@
             const modifyNo = document.getElementById('modify-no');
             const formsContainer = document.getElementById('all-forms-container');
 
-            // Form Visibility Handler
+            // Form Panel Visibility Toggle Logic
             if (modifyYes && modifyNo && formsContainer) {
                 modifyYes.addEventListener('change', () => {
                     if (modifyYes.checked) {
@@ -169,7 +285,7 @@
                 });
             }
 
-            // Interactive Dice Rolling Handler
+            // Async Roll Logic
             const rollButton = document.getElementById('rollButton');
             if (rollButton) {
                 rollButton.addEventListener('click', async () => {

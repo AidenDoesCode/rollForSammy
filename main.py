@@ -1,5 +1,4 @@
 from flask import Flask, render_template, jsonify, request
-from pprint import pprint
 from waitress import serve
 import random
 import os
@@ -19,11 +18,14 @@ settings = {
     "sauce": 2      
 }
 
+# State tracker for excluded ingredients
+excluded_items = []
+
 app = Flask(__name__)
 
 def getOption(maxNum, givenList):
-    # If the user or randomizer generated 0 choices, return an empty list immediately
-    if maxNum == 0:
+    # Safe guard if user picks 0 ingredients or everything is excluded
+    if maxNum == 0 or not givenList:
         return []
     
     choices = []
@@ -35,8 +37,14 @@ def getOption(maxNum, givenList):
 def index():
     return render_template('index.html')
 
+# --- Exclusions Form Handler ---
+@app.route('/submit-exclusions', methods=['POST'])
+def handle_exclusions():
+    global excluded_items
+    excluded_items = request.form.getlist('exclude')
+    return f"Selection saved! Excluded {len(excluded_items)} specific items."
 
-# Specific Choice Forms (Exact Amount Chosen)
+# --- Specific Choice Forms (Exact Amount) ---
 @app.route('/submit-choice', methods=['POST'])
 def handle_submit_choice():
     global is_exact_choice, settings
@@ -72,8 +80,7 @@ def handle_submit_choice():
 
     return "No valid selection made.", 400
 
-
-# Random Max Form Submits (Upper limit range chosen)
+# --- Random Max Form Submits (Upper Limit Range) ---
 @app.route('/submit-random', methods=['POST'])
 def handle_submit_random():
     global is_exact_choice, settings
@@ -109,12 +116,10 @@ def handle_submit_random():
 
     return "No valid selection made.", 400
 
-
+# --- Generator Logic ---
 @app.route('/run-function', methods=['POST'])
 def run_function():
     base = ["White", "Wheat", "Lettuce Wrap"]
-    
-    # Removed "None" string options from arrays to prevent double-empty returns
     meat = ["Turkey", "Ham", "Salami Capicola", "Chicken", "Beef",
             "Chicken Salad", "Pork", "Sausage", "Pepperoni", "Bacon"]
     cheese = ["Provolone", "Mozzarella", "Cheddar", "Bleu Cheese"]
@@ -126,36 +131,24 @@ def run_function():
               "Buffalo Sauce", "BBQ", "Caesar", "V&O", "Italian Vin",
               "Spicy Mustard", "Balsamic", "Pepper Oil", "Marinara", "Au Jus"]
     
-    # Meat logic
-    if is_exact_choice["meat"]:
-        numMeat = settings["meat"]
-    else:
-        numMeat = random.randint(0, settings["meat"])
+    # --- Filter Lists using User Veto Choices ---
+    active_meat = [m for m in meat if m not in excluded_items]
+    active_cheese = [c for c in cheese if c not in excluded_items]
+    active_toppings = [t for t in toppings if t not in excluded_items]
+    active_sauces = [s for s in sauces if s not in excluded_items]
 
-    # Cheese logic
-    if is_exact_choice["cheese"]:
-        numCheese = settings["cheese"]
-    else:
-        numCheese = random.randint(0, settings["cheese"])
-
-    # Topping logic
-    if is_exact_choice["topping"]:
-        numTopping = settings["topping"]
-    else:
-        numTopping = random.randint(0, settings["topping"])
-
-    # Sauce logic
-    if is_exact_choice["sauce"]:
-        numSauce = settings["sauce"]
-    else:
-        numSauce = random.randint(0, settings["sauce"])
+    # Process counts based on choice types
+    numMeat = settings["meat"] if is_exact_choice["meat"] else random.randint(0, settings["meat"])
+    numCheese = settings["cheese"] if is_exact_choice["cheese"] else random.randint(0, settings["cheese"])
+    numTopping = settings["topping"] if is_exact_choice["topping"] else random.randint(0, settings["topping"])
+    numSauce = settings["sauce"] if is_exact_choice["sauce"] else random.randint(0, settings["sauce"])
 
     return jsonify({
         "Bread/Base": getOption(1, base),
-        "Meat": getOption(numMeat, meat),
-        "Cheese": getOption(numCheese, cheese),
-        "Toppings": getOption(numTopping, toppings),
-        "Sauces": getOption(numSauce, sauces)
+        "Meat": getOption(numMeat, active_meat),
+        "Cheese": getOption(numCheese, active_cheese),
+        "Toppings": getOption(numTopping, active_toppings),
+        "Sauces": getOption(numSauce, active_sauces)
     })
 
 if __name__ == "__main__":
